@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-redis/redis/v7"
+	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/shareed2k/go_limiter"
@@ -168,7 +168,7 @@ func NewWithConfig(config Config) echo.MiddlewareFunc {
 				return next(ctx)
 			}
 
-			result, err := limiter.Allow(config.Key(ctx), limit)
+			result, err := limiter.Allow(ctx.Request().Context(), config.Key(ctx), limit)
 			if err != nil {
 				ctx.Logger().Error(err)
 

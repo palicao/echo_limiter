@@ -1,11 +1,12 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"time"
 
-	"github.com/go-redis/redis/v7"
+	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
 	limiter "github.com/shareed2k/echo_limiter"
 )
@@ -18,7 +19,7 @@ func main() {
 		log.Fatal(err)
 	}
 	client := redis.NewClient(option)
-	_ = client.FlushDB().Err()
+	_ = client.FlushDB(context.Background()).Err()
 
 	// 3 requests per 10 seconds max
 	cfg := limiter.Config{
